@@ -39,7 +39,6 @@ footer {
 
     position: fixed;
     bottom: 0;
-    left: 0;
     z-index: 1;
 
     background-color: white;
@@ -133,7 +132,7 @@ h2 {
     align-items: center;
 
     width: 100vw;
-    height: 100vw;
+    height: 100vh;
 
     position: fixed;
     top: 0;
@@ -185,4 +184,6 @@ h2 {
     font-size: 18px;
     line-height: 25px;
     color: #696969;
+
+    cursor: pointer;
 }
