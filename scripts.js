@@ -1,5 +1,6 @@
 
 let userName = ""
+let messagesInformation =[]
 
 function enterTheRoom() {
     userName = document.querySelector(".user-name").value
@@ -8,19 +9,44 @@ function enterTheRoom() {
     conection.then(function () {
         setInterval(keepConnection, 4000)
         requestMessages()
+        document.querySelector(".entry-screen").classList.add("entry-screen-success")
     })
     
 }
 
 function renderMessenges() {
+    let messagesArea = document.querySelector(".messsages-area")
+    for (let i = 0; i < messagesInformation.length; i++) {
 
+        let textComplet = " para"
+        let time = messagesInformation[i].time
+        let from = messagesInformation[i].from
+        let to = messagesInformation[i].to
+        let text = messagesInformation[i].text
+        let type = messagesInformation[i].type
+
+        if (type === "status") {
+            to = ""
+            textComplet = ""
+        }
+
+        messagesArea.innerHTML += `
+            <div class="message-container messages ${type}">
+                <span class="time">${time}</span>
+                <span class="from">${from}</span>${textComplet}
+                <span class="to">${to}</span>
+                <span class="text">${text}</span>
+            </div>`
+    }
 }
 
 function requestMessages() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
     console.log(promise)
     promise.then(function (response) {
-        console.log(response.data)
+        console.log("ok")
+        messagesInformation = response.data
+        renderMessenges()
     })
     promise.catch(function (error) {
         console.log(error.response.status)
