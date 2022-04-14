@@ -18,7 +18,8 @@ function renderMessenges() {
     let messagesArea = document.querySelector(".messsages-area")
     for (let i = 0; i < messagesInformation.length; i++) {
 
-        let textComplet = " para"
+        let textComplet1 = " para"
+        let textComplet2 = ":"
         let time = messagesInformation[i].time
         let from = messagesInformation[i].from
         let to = messagesInformation[i].to
@@ -27,14 +28,15 @@ function renderMessenges() {
 
         if (type === "status") {
             to = ""
-            textComplet = ""
+            textComplet1 = ""
+            textComplet2 = ""
         }
 
         messagesArea.innerHTML += `
             <div class="message-container messages ${type}">
-                <span class="time">${time}</span>
-                <span class="from">${from}</span>${textComplet}
-                <span class="to">${to}</span>
+                <span class="time">(${time})</span>
+                <span class="from">${from}</span>${textComplet1}
+                <span class="to">${to}${textComplet2}</span>
                 <span class="text">${text}</span>
             </div>`
     }
