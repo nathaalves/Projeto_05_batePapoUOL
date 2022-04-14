@@ -8,7 +8,7 @@ function enterTheRoom() {
     
     conection.then(function () {
         setInterval(keepConnection, 4000)
-        requestMessages()
+        setInterval(requestMessages, 3000)
         document.querySelector(".entry-screen").classList.add("entry-screen-success")
     })
     
@@ -16,6 +16,7 @@ function enterTheRoom() {
 
 function renderMessenges() {
     let messagesArea = document.querySelector(".messsages-area")
+    messagesArea.innerHTML = ""
     for (let i = 0; i < messagesInformation.length; i++) {
 
         let textComplet1 = " para"
