@@ -1,4 +1,3 @@
-
 let userName = ""
 let messagesInformation = []
 let participantsList = []
@@ -9,7 +8,9 @@ function enterTheRoom() {
     
     promise.then(function () {
         setInterval(keepConnection, 4000)
+        requestMessages()
         setInterval(requestMessages, 3000)
+        requestParticipantsList()
         setInterval(requestParticipantsList, 10000)
         document.querySelector(".entry-screen").classList.add("entry-screen-success")
     })
@@ -22,9 +23,7 @@ function enterTheRoom() {
 }
 
 function keepConnection() {
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: userName})
-    promise.then(function () {
-    })
+    axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: userName})
 }
 
 function requestMessages() {
@@ -56,11 +55,11 @@ function renderMessenges() {
             textComplet2 = ""
         }
 
-        function messageFilter() {
-            return to === userName || to === "Todos" || type === "status"
+        function visibleMessages() {
+            return from === userName || to === userName || to === "Todos" || type === "status"
         }
 
-        if (messageFilter()) {
+        if (visibleMessages()) {
             messagesArea.innerHTML += `
             <div class="message-container message-layout ${type}">
                 <span class="time">(${time})</span>
@@ -95,12 +94,21 @@ function requestParticipantsList() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
     promise.then(function (response){
         participantsList = response.data
-        console.log(participantsList)
+        renderParticipants()
     })
 }
 
 function renderParticipants() {
+    const participantListArea = document.querySelector(".participants-list")
+    participantListArea.innerHTML = ""
 
+    for (let i = 0; i < participantsList.length; i++){
+        let participant = participantsList[i].name
+
+        if (participant !== userName) {
+            participantListArea.innerHTML += `<div><ion-icon name="person-circle"></ion-icon><span>${participant}</span></div>`
+        }
+    }
 }
 
 

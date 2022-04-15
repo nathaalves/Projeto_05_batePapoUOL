@@ -137,11 +137,19 @@ footer {
     background-color: white;
 }
 
-.side-menu > div {
+.side-menu div {
     display: flex;
     align-items: center;
     margin-left: 18px;
     margin-bottom: 10px;
+}
+
+.participants-list {
+    flex-direction: column;
+    max-height: 400px;
+
+    overflow-y: scroll;
+
 }
 
 .side-menu ion-icon {
