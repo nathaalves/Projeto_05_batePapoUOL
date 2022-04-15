@@ -1,6 +1,7 @@
 
 let userName = ""
-let messagesInformation =[]
+let messagesInformation = []
+let participantsList = []
 
 function enterTheRoom() {
     userName = document.querySelector(".user-name").value
@@ -9,6 +10,7 @@ function enterTheRoom() {
     promise.then(function () {
         setInterval(keepConnection, 4000)
         setInterval(requestMessages, 3000)
+        setInterval(requestParticipantsList, 10000)
         document.querySelector(".entry-screen").classList.add("entry-screen-success")
     })
     promise.catch(function (error) {
@@ -87,6 +89,18 @@ function sendMessage() {
 
 function showSideMenu() {
     document.querySelector(".side-menu-container").classList.toggle("show-side-menu")
+}
+
+function requestParticipantsList() {
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
+    promise.then(function (response){
+        participantsList = response.data
+        console.log(participantsList)
+    })
+}
+
+function renderParticipants() {
+
 }
 
 
