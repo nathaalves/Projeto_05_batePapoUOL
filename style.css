@@ -15,11 +15,11 @@ header {
     background-color: white;
 }
 
-#logo {
+.logo {
     margin-left: 25px;
 }
 
-#menu-button {
+.menu-button {
     width: 42px;
     height: 31px;
     margin-right: 25px;
@@ -80,7 +80,7 @@ footer {
     background-color: white;
 }
 
-#text-box {
+.text-box {
     display: flex;
     align-items: center;
 
@@ -99,7 +99,7 @@ footer {
     content:attr(data-text)
 }
 
-#send-button {
+.send-button {
     margin: 0 25px;
     width: 26px;
     height: 26px;

@@ -13,12 +13,29 @@ function enterTheRoom() {
     })
     promise.catch(function (error) {
         const err = error.response.status
-        console.log(err)
         if (err === 400) {
             alert("Este nome de usuário já está em uso. Utilize outro nome")
         }
     })
 }
+
+function keepConnection() {
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: userName})
+    promise.then(function () {
+    })
+}
+
+function requestMessages() {
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
+    promise.then(function (response) {
+        messagesInformation = response.data
+        renderMessenges()
+    })
+    promise.catch(function (error) {
+    })
+}
+
+
 
 function renderMessenges() {
     let messagesArea = document.querySelector(".messsages-area")
@@ -39,7 +56,11 @@ function renderMessenges() {
             textComplet2 = ""
         }
 
-        if ((to === userName || to === "Todos" || type === "status")) {
+        function validMessage() {
+            return to === userName || to === "Todos" || type === "status"
+        }
+
+        if (validMessage()) {
             messagesArea.innerHTML += `
             <div class="message-container message-layout ${type}">
                 <span class="time">(${time})</span>
@@ -51,20 +72,23 @@ function renderMessenges() {
     }
 }
 
-function requestMessages() {
-    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
-    promise.then(function (response) {
-        messagesInformation = response.data
+
+
+function sendMessage() {
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", {
+        from: userName,
+        to: "Todos",
+        text: document.querySelector(".text-box").innerText,
+        type: "message"
+    })
+    promise.then(function () {
         renderMessenges()
     })
-    promise.catch(function (error) {
+    promise.catch(function (){
+        window.location.reload()
     })
 }
 
-function keepConnection() {
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: userName})
-    promise.then(function () {
-    })
-}
+
 
 
