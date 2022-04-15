@@ -4,14 +4,20 @@ let messagesInformation =[]
 
 function enterTheRoom() {
     userName = document.querySelector(".user-name").value
-    const conection = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", {name: userName})
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", {name: userName})
     
-    conection.then(function () {
+    promise.then(function () {
         setInterval(keepConnection, 4000)
         setInterval(requestMessages, 3000)
         document.querySelector(".entry-screen").classList.add("entry-screen-success")
     })
-    
+    promise.catch(function (error) {
+        const err = error.response.status
+        console.log(err)
+        if (err === 400) {
+            alert("Este nome de usuário já está em uso. Utilize outro nome")
+        }
+    })
 }
 
 function renderMessenges() {
@@ -33,34 +39,31 @@ function renderMessenges() {
             textComplet2 = ""
         }
 
-        messagesArea.innerHTML += `
-            <div class="message-container messages ${type}">
+        if ((to === userName || to === "Todos" || type === "status")) {
+            messagesArea.innerHTML += `
+            <div class="message-container message-layout ${type}">
                 <span class="time">(${time})</span>
                 <span class="from">${from}</span>${textComplet1}
                 <span class="to">${to}${textComplet2}</span>
                 <span class="text">${text}</span>
             </div>`
+        }
     }
 }
 
 function requestMessages() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
-    console.log(promise)
     promise.then(function (response) {
-        console.log("ok")
         messagesInformation = response.data
         renderMessenges()
     })
     promise.catch(function (error) {
-        console.log(error.response.status)
-        console.log(error.response.data)
     })
 }
 
 function keepConnection() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: userName})
     promise.then(function () {
-        console.log("conectado")
     })
 }
 

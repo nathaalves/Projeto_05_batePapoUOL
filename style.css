@@ -37,13 +37,6 @@ header {
     background-color: #f4f4f4;
 }
 
-.messages {
-    width: 100vw;
-    padding: 8px 0;
-    margin: 4px 0;
-    border-radius: 2px;
-}
-
 .status {
     background: #DCDCDC;
 }
@@ -54,16 +47,19 @@ header {
     background: #FFDEDE;
 }
 
-.container-message {
+.message-container {
+    width: 100vw;
+    padding: 8px 8px;
+    margin: 4px 0;
+    border-radius: 2px;
     
     font-weight: 400;
     font-size: 14px;
-    line-height: 16px;
-
+    line-height: 20px;
 }
 
 .time {
-    margin: 0 8px;
+    margin-right: 8px;
     color: #AAAAAA;;
 }
 
@@ -224,4 +220,8 @@ h2 {
     color: #696969;
 
     cursor: pointer;
+}
+
+.loading {
+    display: none;
 }
