@@ -106,9 +106,8 @@ footer {
 }
 
 .side-menu-container {
-
     display: none;
-    
+
     width: 100vw;
     height: 100vh;
 
@@ -116,7 +115,15 @@ footer {
     top: 0;
     bottom: 0;
     z-index: 1;
+}
 
+.show-side-menu {
+    display: flex;
+}
+
+.side-menu-background {
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
 }
 

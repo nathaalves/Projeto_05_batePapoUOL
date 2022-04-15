@@ -35,8 +35,6 @@ function requestMessages() {
     })
 }
 
-
-
 function renderMessenges() {
     let messagesArea = document.querySelector(".messsages-area")
     messagesArea.innerHTML = ""
@@ -56,11 +54,11 @@ function renderMessenges() {
             textComplet2 = ""
         }
 
-        function validMessage() {
+        function messageFilter() {
             return to === userName || to === "Todos" || type === "status"
         }
 
-        if (validMessage()) {
+        if (messageFilter()) {
             messagesArea.innerHTML += `
             <div class="message-container message-layout ${type}">
                 <span class="time">(${time})</span>
@@ -71,8 +69,6 @@ function renderMessenges() {
         }
     }
 }
-
-
 
 function sendMessage() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", {
@@ -87,6 +83,10 @@ function sendMessage() {
     promise.catch(function (){
         window.location.reload()
     })
+}
+
+function showSideMenu() {
+    document.querySelector(".side-menu-container").classList.toggle("show-side-menu")
 }
 
 

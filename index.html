@@ -11,7 +11,7 @@
 <body>
     <header>
         <img class="logo" src="images/logo.svg" alt="">
-        <ion-icon class="menu-button" name="people"></ion-icon>
+        <ion-icon class="menu-button" name="people"  onclick="showSideMenu()"></ion-icon>
     </header>
     <main class="messsages-area">
         <div class="message-container">
@@ -25,6 +25,7 @@
         <ion-icon class="send-button" name="paper-plane-outline" onclick="sendMessage()"></ion-icon>
     </footer>
     <div class="side-menu-container">
+        <div class="side-menu-background" onclick="showSideMenu()"></div>
         <div class="side-menu">
             <h2>Escolha um contato para enviar mensagem:</h2>
             <div><ion-icon name="people"></ion-icon><span>Todos</span></div>
