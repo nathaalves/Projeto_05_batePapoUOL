@@ -7,7 +7,7 @@ let visibilit = "message"
 function enterTheRoom() {
     userName = document.querySelector(".user-name").value
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", {name: userName})
-    
+    loadingMessages(200)
     promise.then(function () {
         setInterval(keepConnection, 4000)
         requestMessages()
@@ -18,9 +18,21 @@ function enterTheRoom() {
     promise.catch(function (error) {
         const err = error.response.status
         if (err === 400) {
-            alert("Este nome de usuário já está em uso. Utilize outro nome")
+            loadingMessages(err)
         }
     })
+}
+
+function loadingMessages(err) {
+    if (err === 200) {
+        document.querySelector(".entry-information").style.display = "none"
+        document.querySelector(".loading-page").style.display = "flex"
+    }
+    if (err === 400) {
+        document.querySelector(".entry-information").style.display = "flex"
+        document.querySelector(".loading-page").style.display = "none"
+        document.querySelector(".err-user-name").style.display = "flex"
+    }
 }
 
 function closeEntryScreen() {

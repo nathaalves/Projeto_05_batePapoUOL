@@ -34,7 +34,7 @@
             <section class="contacts-list"></section>
             <h2>Escolha a visibilidade:</h2>
             <section class="visibilit">
-                <div onclick="messageVisibilit(this)"><ion-icon name="lock-open"></ion-icon><span>Público</span><ion-icon class="selected active" name="checkmark-outline"></ion-icon></div>
+                <div class="" onclick="messageVisibilit(this)"><ion-icon name="lock-open"></ion-icon><span>Público</span><ion-icon class="selected active" name="checkmark-outline"></ion-icon></div>
                 <div onclick="messageVisibilit(this)"><ion-icon name="lock-open"></ion-icon><span>Reservadamente</span><ion-icon class="selected" name="checkmark-outline"></ion-icon></div>
             </section>
         </div>
@@ -42,6 +42,7 @@
     <div class="entry-screen">
         <img class="logo-entry-screen" src="images/logo.svg" alt="">
         <div class="entry-information">
+            <div class="err-user-name">O nome escolhido já está em uso. Escolha um outro nome.</div>
             <input class="user-name" type="text" placeholder="Digite seu nome">
             <div class="button-entry-screen" onclick="enterTheRoom()">Entrar</div>
         </div>
