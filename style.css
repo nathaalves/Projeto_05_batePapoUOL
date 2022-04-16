@@ -142,26 +142,38 @@ footer {
     align-items: center;
     margin-left: 18px;
     margin-bottom: 10px;
+
+    position: relative;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
 }
 
-.participants-list {
+.contacts-list {
     flex-direction: column;
     max-height: 400px;
 
     overflow-y: scroll;
+}
+.contacts-list > div {
+    cursor: pointer;
+}
 
+.selected {
+    display: none;
+    position: absolute;
+    left: 190px;
+}
+
+.active {
+    display: flex;
 }
 
 .side-menu ion-icon {
     font-size: 22px;
     margin-right: 10px;
-}
-
-.side-menu span {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
 }
 
 h2 {

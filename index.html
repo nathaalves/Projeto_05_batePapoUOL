@@ -28,13 +28,12 @@
         <div class="side-menu-background" onclick="showSideMenu()"></div>
         <div class="side-menu">
             <h2>Escolha um contato para enviar mensagem:</h2>
-            <div><ion-icon name="people"></ion-icon><span>Todos</span></div>
-            <section class="participants-list">
-                
-            </section>
+            <section class="contacts-list"></section>
             <h2>Escolha a visibilidade:</h2>
-            <div><ion-icon name="lock-open"></ion-icon>Público</div>
-            <div><ion-icon name="lock-open"></ion-icon>Reservadamente</div>
+            <section class="visibilit">
+                <div onclick="messageVisibilit(this)"><ion-icon name="lock-open"></ion-icon><span>Público</span><ion-icon class="selected active" name="checkmark-outline"></ion-icon></div>
+                <div onclick="messageVisibilit(this)"><ion-icon name="lock-open"></ion-icon><span>Reservadamente</span><ion-icon class="selected" name="checkmark-outline"></ion-icon></div>
+            </section>
         </div>
     </div>
     <div class="entry-screen">

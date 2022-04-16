@@ -1,6 +1,8 @@
 let userName = ""
 let messagesInformation = []
 let participantsList = []
+let selectedContact = "Todos"
+let visibilit = "message"
 
 function enterTheRoom() {
     userName = document.querySelector(".user-name").value
@@ -74,9 +76,9 @@ function renderMessenges() {
 function sendMessage() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", {
         from: userName,
-        to: "Todos",
+        to: selectedContact,
         text: document.querySelector(".text-box").innerText,
-        type: "message"
+        type: visibilit
     })
     promise.then(function () {
         renderMessenges()
@@ -95,22 +97,52 @@ function requestParticipantsList() {
     promise.then(function (response){
         participantsList = response.data
         renderParticipants()
+        selectContact()
     })
 }
 
+function selectContact() {
+    const selected = document.querySelector(".contacts-list .active")
+    if (selected === null) {
+        const sendToAll = document.querySelector(".contacts-list .selected")
+        sendToAll.classList.add("active")
+    }
+}
+
+function contactSelection(selected) {
+
+    const teste = document.querySelector(".contacts-list .active")
+    teste.classList.remove("active")
+    
+    selected.querySelector(".selected").classList.add("active")
+    selectedContact = selected.querySelector("span").innerHTML
+}
+
 function renderParticipants() {
-    const participantListArea = document.querySelector(".participants-list")
-    participantListArea.innerHTML = ""
+    const participantListArea = document.querySelector(".contacts-list")
+    participantListArea.innerHTML = `<div onclick="contactSelection(this)"><ion-icon name="people"></ion-icon><span>Todos</span><ion-icon class="selected" name="checkmark-outline"></ion-icon></div>`
 
     for (let i = 0; i < participantsList.length; i++){
         let participant = participantsList[i].name
 
+        let addClass = ""
+        if (participant === selectedContact) {
+            addClass = "active"
+        }
+
         if (participant !== userName) {
-            participantListArea.innerHTML += `<div><ion-icon name="person-circle"></ion-icon><span>${participant}</span></div>`
+            participantListArea.innerHTML += `<div onclick="contactSelection(this)"><ion-icon name="person-circle"></ion-icon><span>${participant}</span><ion-icon class="selected ${addClass}" name="checkmark-outline"></ion-icon></div>`
         }
     }
 }
 
-
-
-
+function messageVisibilit(selected) {
+    document.querySelector(".visibilit .active").classList.remove("active")
+    selected.querySelector(".selected").classList.add("active")
+    visibilit = selected.querySelector("span").innerHTML
+    if (visibilit === "Público") {
+        visibilit = "message"
+    } else {
+        visibilit = "private_message"
+    }
+}
