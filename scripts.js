@@ -14,7 +14,6 @@ function enterTheRoom() {
         setInterval(requestMessages, 3000)
         requestParticipantsList()
         setInterval(requestParticipantsList, 10000)
-        document.querySelector(".entry-screen").classList.add("entry-screen-success")
     })
     promise.catch(function (error) {
         const err = error.response.status
@@ -22,6 +21,10 @@ function enterTheRoom() {
             alert("Este nome de usuário já está em uso. Utilize outro nome")
         }
     })
+}
+
+function closeEntryScreen() {
+    document.querySelector(".entry-screen").classList.add("entry-screen-success")
 }
 
 function keepConnection() {
@@ -33,6 +36,7 @@ function requestMessages() {
     promise.then(function (response) {
         messagesInformation = response.data
         renderMessenges()
+        closeEntryScreen()
     })
     promise.catch(function (error) {
     })
@@ -106,6 +110,7 @@ function selectContact() {
     if (selected === null) {
         const sendToAll = document.querySelector(".contacts-list .selected")
         sendToAll.classList.add("active")
+        selectedContact = "Todos"
     }
 }
 
