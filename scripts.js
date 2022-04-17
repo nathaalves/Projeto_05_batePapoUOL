@@ -1,13 +1,13 @@
 let userName = ""
-let messagesInformation = []
+let messageInformations = []
 let participantsList = []
 let selectedContact = "Todos"
 let visibilit = "message"
 
-function enterTheRoom() {
+function enterTheChat() {
     userName = document.querySelector(".user-name").value
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", {name: userName})
-    loadingMessages(200)
+    loadingPage(200)
     promise.then(function () {
         setInterval(keepConnection, 4000)
         requestMessages()
@@ -18,12 +18,12 @@ function enterTheRoom() {
     promise.catch(function (error) {
         const err = error.response.status
         if (err === 400) {
-            loadingMessages(err)
+            loadingPage(err)
         }
     })
 }
 
-function loadingMessages(err) {
+function loadingPage(err) {
     if (err === 200) {
         document.querySelector(".entry-information").style.display = "none"
         document.querySelector(".loading-page").style.display = "flex"
@@ -46,26 +46,24 @@ function keepConnection() {
 function requestMessages() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
     promise.then(function (response) {
-        messagesInformation = response.data
+        messageInformations = response.data
         renderMessenges()
         closeEntryScreen()
-    })
-    promise.catch(function (error) {
     })
 }
 
 function renderMessenges() {
     let messagesArea = document.querySelector(".messsages-area")
     messagesArea.innerHTML = ""
-    for (let i = 0; i < messagesInformation.length; i++) {
+    for (let i = 0; i < messageInformations.length; i++) {
 
         let textComplet1 = " para"
         let textComplet2 = ":"
-        let time = messagesInformation[i].time
-        let from = messagesInformation[i].from
-        let to = messagesInformation[i].to
-        let text = messagesInformation[i].text
-        let type = messagesInformation[i].type
+        let time = messageInformations[i].time
+        let from = messageInformations[i].from
+        let to = messageInformations[i].to
+        let text = messageInformations[i].text
+        let type = messageInformations[i].type
 
         if (type === "status") {
             to = ""
@@ -73,29 +71,38 @@ function renderMessenges() {
             textComplet2 = ""
         }
 
-        function visibleMessages() {
+        function messagesICanSee() {
             return from === userName || to === userName || to === "Todos" || type === "status"
         }
 
-        if (visibleMessages()) {
+        if (messagesICanSee()) {
             messagesArea.innerHTML += `
-            <div class="message-container message-layout ${type}">
+            <div class="message-container ${type}">
                 <span class="time">(${time})</span>
                 <span class="from">${from}</span>${textComplet1}
                 <span class="to">${to}${textComplet2}</span>
                 <span class="text">${text}</span>
             </div>`
         }
+
+        function scrollToLastMessage() {
+            const allMessages = document.querySelectorAll(".message-container")
+            const lastMessage = allMessages[allMessages.length-1]
+            lastMessage.scrollIntoView(false)
+        }
+        scrollToLastMessage()
     }
 }
 
 function sendMessage() {
+    const text = document.querySelector(".text-box")
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", {
         from: userName,
         to: selectedContact,
-        text: document.querySelector(".text-box").innerText,
+        text: text.value,
         type: visibilit
     })
+    text.value = ""
     promise.then(function () {
         renderMessenges()
     })
@@ -113,26 +120,29 @@ function requestParticipantsList() {
     promise.then(function (response){
         participantsList = response.data
         renderParticipants()
-        selectContact()
+        selectSendToAllContacts()
     })
 }
 
-function selectContact() {
+function selectSendToAllContacts() {
     const selected = document.querySelector(".contacts-list .active")
     if (selected === null) {
         const sendToAll = document.querySelector(".contacts-list .selected")
         sendToAll.classList.add("active")
         selectedContact = "Todos"
+        document.querySelector(".selected-contact").innerHTML = "Todos"
     }
 }
 
 function contactSelection(selected) {
 
-    const teste = document.querySelector(".contacts-list .active")
-    teste.classList.remove("active")
+    const unselect = document.querySelector(".contacts-list .active")
+    unselect.classList.remove("active")
     
     selected.querySelector(".selected").classList.add("active")
     selectedContact = selected.querySelector("span").innerHTML
+
+    document.querySelector(".selected-contact").innerHTML = selectedContact
 }
 
 function renderParticipants() {
@@ -154,12 +164,29 @@ function renderParticipants() {
 }
 
 function messageVisibilit(selected) {
+
     document.querySelector(".visibilit .active").classList.remove("active")
+
     selected.querySelector(".selected").classList.add("active")
     visibilit = selected.querySelector("span").innerHTML
+
+    document.querySelector(".visibilit").innerHTML = visibilit
+
     if (visibilit === "Público") {
         visibilit = "message"
     } else {
         visibilit = "private_message"
     }
 }
+
+document.querySelector(".user-name").addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        document.querySelector(".button-entry-screen").click()
+    }
+})
+
+document.querySelector(".text-box").addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        document.querySelector(".send-button").click()
+    }
+})
