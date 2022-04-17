@@ -18,10 +18,12 @@
     </main>
     <footer>
         <div>
-            <input class="text-box" placeholder="Escreva aqui..."></input>
+            <div class="text-box-container">
+                <input class="text-box" placeholder="Escreva aqui..."></input>
+                <ion-icon class="send-button" name="paper-plane-outline" onclick="sendMessage()"></ion-icon>
+            </div>
             <div class="send-informations">Enviando para <span class="selected-contact">Todos</span> (<span class="visibilit">Público</span>)</div>
         </div>
-        <ion-icon class="send-button" name="paper-plane-outline" onclick="sendMessage()"></ion-icon>
     </footer>
     <div class="side-menu-container">
         <div class="side-menu-background" onclick="showSideMenu()"></div>

@@ -142,7 +142,7 @@ function contactSelection(selected) {
     selected.querySelector(".selected").classList.add("active")
     selectedContact = selected.querySelector("span").innerHTML
 
-    document.querySelector(".selected-contact").innerHTML = selectedContact
+    document.querySelector(".selected-contact").innerHTML = " " + selectedContact + " "
 }
 
 function renderParticipants() {
@@ -179,14 +179,24 @@ function messageVisibilit(selected) {
     }
 }
 
-document.querySelector(".user-name").addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        document.querySelector(".button-entry-screen").click()
-    }
-})
+function sendWithEnter() {
 
-document.querySelector(".text-box").addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        document.querySelector(".send-button").click()
-    }
-})
+    const userNameInputBox = document.querySelector(".user-name")
+    const BtnEnter = document.querySelector(".button-entry-screen")
+
+    userNameInputBox.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            BtnEnter.click()
+        }
+    })
+
+    const textInputBox = document.querySelector(".text-box")
+    const btnSendMessage = document.querySelector(".send-button")
+
+    textInputBox.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            btnSendMessage.click()
+        }
+    })
+}
+sendWithEnter()
