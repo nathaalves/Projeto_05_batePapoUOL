@@ -5,9 +5,12 @@ let selectedContact = "Todos"
 let visibilit = "message"
 
 function enterTheChat() {
+
     userName = document.querySelector(".user-name").value
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", {name: userName})
+
     loadingPage(200)
+
     promise.then(function () {
         setInterval(keepConnection, 4000)
         requestMessages()
@@ -15,6 +18,7 @@ function enterTheChat() {
         requestParticipantsList()
         setInterval(requestParticipantsList, 10000)
     })
+
     promise.catch(function (error) {
         const err = error.response.status
         if (err === 400) {
@@ -24,10 +28,12 @@ function enterTheChat() {
 }
 
 function loadingPage(err) {
+
     if (err === 200) {
         document.querySelector(".entry-information").style.display = "none"
         document.querySelector(".loading-page").style.display = "flex"
     }
+
     if (err === 400) {
         document.querySelector(".entry-information").style.display = "flex"
         document.querySelector(".loading-page").style.display = "none"
@@ -44,17 +50,22 @@ function keepConnection() {
 }
 
 function requestMessages() {
+
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
+
     promise.then(function (response) {
         messageInformations = response.data
+        console.log( messageInformations)
         renderMessenges()
         closeEntryScreen()
     })
 }
 
 function renderMessenges() {
+
     let messagesArea = document.querySelector(".messsages-area")
     messagesArea.innerHTML = ""
+
     for (let i = 0; i < messageInformations.length; i++) {
 
         let textComplet1 = " para"
@@ -76,6 +87,7 @@ function renderMessenges() {
         }
 
         if (messagesICanSee()) {
+
             messagesArea.innerHTML += `
             <div class="message-container ${type}">
                 <span class="time">(${time})</span>
@@ -95,28 +107,31 @@ function renderMessenges() {
 }
 
 function sendMessage() {
+
     const text = document.querySelector(".text-box")
+
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", {
         from: userName,
         to: selectedContact,
         text: text.value,
         type: visibilit
     })
+
     text.value = ""
+
     promise.then(function () {
         renderMessenges()
     })
+    
     promise.catch(function (){
         window.location.reload()
     })
 }
 
-function showSideMenu() {
-    document.querySelector(".side-menu-container").classList.toggle("show-side-menu")
-}
-
 function requestParticipantsList() {
+
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
+
     promise.then(function (response){
         participantsList = response.data
         renderParticipants()
@@ -124,8 +139,44 @@ function requestParticipantsList() {
     })
 }
 
+function renderParticipants() {
+
+    const participantListArea = document.querySelector(".contacts-list")
+    participantListArea.innerHTML = `
+    <div onclick="contactSelection(this)">
+        <ion-icon name="people"></ion-icon>
+        <span>Todos</span>
+        <ion-icon class="selected" name="checkmark-outline"></ion-icon>
+    </div>`
+
+    for (let i = 0; i < participantsList.length; i++){
+
+        let participant = participantsList[i].name
+        let addClass = ""
+        
+        if (participant === selectedContact) {
+            addClass = "active"
+        }
+
+        if (participant !== userName) {
+            participantListArea.innerHTML += `
+            <div onclick="contactSelection(this)">
+                <ion-icon name="person-circle"></ion-icon>
+                <span>${participant}</span>
+                <ion-icon class="selected ${addClass}" name="checkmark-outline"></ion-icon>
+            </div>`
+        }
+    }
+}
+
+function showSideMenu() {
+    document.querySelector(".side-menu-container").classList.toggle("show-side-menu")
+}
+
 function selectSendToAllContacts() {
+
     const selected = document.querySelector(".contacts-list .active")
+
     if (selected === null) {
         const sendToAll = document.querySelector(".contacts-list .selected")
         sendToAll.classList.add("active")
@@ -142,28 +193,10 @@ function contactSelection(selected) {
     selected.querySelector(".selected").classList.add("active")
     selectedContact = selected.querySelector("span").innerHTML
 
-    document.querySelector(".selected-contact").innerHTML = " " + selectedContact + " "
+    document.querySelector(".selected-contact").innerHTML = selectedContact
 }
 
-function renderParticipants() {
-    const participantListArea = document.querySelector(".contacts-list")
-    participantListArea.innerHTML = `<div onclick="contactSelection(this)"><ion-icon name="people"></ion-icon><span>Todos</span><ion-icon class="selected" name="checkmark-outline"></ion-icon></div>`
-
-    for (let i = 0; i < participantsList.length; i++){
-        let participant = participantsList[i].name
-
-        let addClass = ""
-        if (participant === selectedContact) {
-            addClass = "active"
-        }
-
-        if (participant !== userName) {
-            participantListArea.innerHTML += `<div onclick="contactSelection(this)"><ion-icon name="person-circle"></ion-icon><span>${participant}</span><ion-icon class="selected ${addClass}" name="checkmark-outline"></ion-icon></div>`
-        }
-    }
-}
-
-function messageVisibilit(selected) {
+function visibilitSelection(selected) {
 
     document.querySelector(".visibilit .active").classList.remove("active")
 
